@@ -1,12 +1,11 @@
 import discord
-from discord import app_commands
 from discord.ext import commands
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
-TOKEN = os.getenv('DISCORD_TOKEN')
+TOKEN: str = os.getenv('DISCORD_TOKEN', '') 
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -21,7 +20,9 @@ async def on_ready():
         print(f'Synced {len(synced)} command(s)')
     except Exception as e:
         print(f'Error syncing commands: {e}')
-    print(f'Logged in as {bot.user} (ID: {bot.user.id})')
+    
+    if bot.user is not None:
+        print(f'Logged in as {bot.user} (ID: {bot.user.id})')
 
 # commands
 @bot.tree.command(name='hello', description='Say hello!')
